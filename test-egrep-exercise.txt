@@ -1,0 +1,98 @@
+
+INFO -> Bash shell: git-Bash
+
+Task: 
+
+1 - lines beginning with “+ ” or “- ” (a plus or a minus, followed by a space)
+    
+    silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep '^[+-] ' auth.log
+
+    + Test positive case
+    - Test negative case
+
+    Note: with this exercise, I discovered the difference of using ' '  and " " in your expression. 
+    name = Silvina;
+    echo = "Hi $name" -> Hi Silvina
+    echo = 'Hi $name' -> Hi $name
+
+***Additional matching example:***
+  silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main)$ egrep '\bport 63315\b' auth.log
+ 
+  All the log on port 63315
+
+    Nov  7 20:34:57 scc-it120 sshd[152892]: Failed password for root from 218.92.0.34 port 63315 ssh2
+    Nov  7 20:35:00 scc-it120 sshd[152892]: Failed password for root from 218.92.0.34 port 63315 ssh2
+    Nov  7 20:35:05 scc-it120 sshd[152892]: Failed password for root from 218.92.0.34 port 63315 ssh2
+    Nov  7 20:35:05 scc-it120 sshd[152892]: Received disconnect from 218.92.0.34 port 63315:11:  [preauth]
+    Nov  7 20:35:05 scc-it120 sshd[152892]: Disconnected from authenticating user root 218.92.0.34 port 63315 [preauth]
+
+
+- Failed logs related to user Kit: 
+    silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep -i 'failed.*kit' auth.log
+
+    Note: word boundaries were needed to bring only "Kit" user and not users that contain Kit, like ankit or kitti.
+    New version: $ egrep -i 'failed.*\bkit\b' auth.log
+  
+- Log error
+
+    silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep -i error auth.log
+
+    Note: If an user has the word "error" or if a message contains the word "error" in its description, it will cause a false positive. 
+    New version: egrep 'sshd\[[0-9]+\]: error:' auth.log
+    In this new attemp, we are matching "sshd[number]: error:" 
+
+- Invalid SSH login attemp
+  silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep -i invalid user auth.log
+  
+  Note: you can have false positives here when a user name is "invalid user" or when it's part of a text
+  New version: egrep -i 'sshd\[[0-9]+\]: Invalid user' auth.log
+  With this new version, we can see the log of invalid SSH login attemp logs properly. 
+
+_____________________________________________________________
+
+2 - any lines from “git log –decorate=short” that have a tag or ref associated with them (lines 1 and 19 of included git-log.txt)
+
+silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep "tag" filename
+
+commit 64c64365e444b5a92882665d6515db2216236519 (HEAD -> main, tag: decode-base, proto/main, origin/main)
+commit 831068e3d3027552419dc0c1c409524c75f51c98 (tag: start-here)
+
+Note: In this case, we didn't have any place where the tag or ref associated was placed, but if for example we have 
+a commit message mentioning "we should include a tag", we will bring it on the results as false positive.
+
+New version: egrep '^commit +.*\(+.*+tag:' git-log.txt
+Now we are taking the lines that start with "commit" and has tag: after a open parentesis. 
+
+***Additional matching example:***
+
+Commits by Author: Kit Transue -> egrep -B 1 'Author: Kit Transue' git-log.txt
+
+Note: I discovery we can retrieve lines before and after the matching sequence using - A (after) B (before) #lines
+
+****Three additional not matching example:***
+
+- Match only commit and comment, removing Author and Date 
+$ grep -v -E 'Author:|Date:' git-log.txt
+
+- Exclude all the commits that are not pushed to origin-main
+
+grep -v 'origin/main' git-log.txt
+
+
+_____________________________________________________________
+
+3 -lines representing new ssh sessions in auth.log (use “egrep -i session auth.log” to find a starting point)
+   silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main)$ egrep -i 'sshd.*session opened' auth.log
+
+Nov  6 18:29:32 scc-it120 sshd[130648]: pam_unix(sshd:session): session opened for user ada(uid=1066) by (uid=0)
+Nov  6 20:39:41 scc-it120 sshd[132492]: pam_unix(sshd:session): session opened for user ada(uid=1066) by (uid=0)
+
+Note: -i for case sensitive and .* to include any char between "sshd" and "session opened" (otherwise it will match only 
+if sshd is imediately followed by session opened). 
+
+***Additional matching example:***
+
+
+****Three additional not matching example:***
+
+

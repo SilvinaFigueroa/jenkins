@@ -1,0 +1,120 @@
+
+[
+    {
+        "regex": "^[+-] ",
+        "input_file": "auth.log",
+        "case" : "lines beginning with “+ ” or “- ” (a plus or a minus, followed by a space)",
+        "match_type" : "match",
+        "output_file": "auth-log-matching.txt"
+    },
+        {
+        "regex": "\\bport 63315\\b",
+        "input_file": "auth.log",
+        "match_type" : "match",
+        "case":"Additional matching example - All the log on port 63315 ",
+        "output_file": "auth-log-matching.txt"
+    },
+
+    {
+        "regex": "sshd\\[[0-9]+\\]: error:",
+        "case" : "Unwanted match: Log error",
+        "match_type" : "non-match",
+        "input_file": "auth.log",
+        "output_file": "auth-log-non-match.tx"
+    },
+
+        {
+        "regex": "failed.*\bkit\b",
+        "case" : "Unwanted match: failed log related with user kit",
+        "match_type" : "non-match",
+        "input_file": "auth.log",
+        "output_file": "auth-log-non-match.tx"
+    },
+            {
+        "regex": "sshd\\[[0-9]+\\]: Invalid user",
+        "case" : "Invalid SSH login attemp",
+        "match_type" : "non-match",
+        "input_file": "auth.log",
+        "output_file": "auth-log-non-match.txt"
+    },
+
+    {
+        "regex": "^commit +.*\\(+.*+tag:",
+        "input_file": "git-log.txt",
+        "case" : "any lines from “git log decorate=short” that have a tag or ref associated with them",
+        "match_type" : "match",
+        "output_file": "git-log-match.txt"
+    },
+
+    {
+        "regex": "-B 1 'Author: Kit Transue'",
+        "input_file": "git-log.txt",
+        "case" : "Commits by Author: Kit Transue",
+        "match_type" : "match",
+        "output_file": "git-log-match.txt"
+    },   
+
+    {
+        "regex": "-E 'Author:|Date:' git-log.txt'",
+        "input_file": "git-log.txt",
+        "case" : "Match only commit and comment, removing Author and Date",
+        "match_type" : "non-match",
+        "output_file": "git-log-non-match.txt"
+    },
+
+    {
+        "regex": "'",
+        "input_file": "git-log.txt",
+        "case" : "",
+        "match_type" : "non-match",
+        "output_file": "git-log-non-match.txt"
+    },
+
+    {
+        "regex": "'",
+        "input_file": "git-log.txt",
+        "case" : "Match only commit and comment, removing Author and Date",
+        "match_type" : "non-match",
+        "output_file": "git-log-non-match.txt"
+    },  
+
+    {
+        "regex": "",
+        "input_file": "auth.log",
+        "case" : "",
+        "match_type" : "match",
+        "output_file": "auth-log-matching.txt"
+    },
+        {
+        "regex": "",
+        "case":"",
+        "input_file": "auth.log",
+        "match_type" : "match",
+        "output_file": "auth-log-matching.txt"
+    },
+
+    {
+        "regex": "",
+        "case" : "",
+        "match_type" : "non-match",
+        "input_file": "auth.log",
+        "output_file": "auth-log-non-match.tx"
+    },
+
+        {
+        "regex": "",
+        "case" : "",
+        "match_type" : "non-match",
+        "input_file": "auth.log",
+        "output_file": "auth-log-non-match.tx"
+    },
+            {
+        "regex": "",
+        "case" : "",
+        "match_type" : "non-match",
+        "input_file": "auth.log",
+        "output_file": "auth-log-non-match.txt"
+    }
+
+    
+]
