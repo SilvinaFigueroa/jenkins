@@ -1,0 +1,26 @@
+{
+    "git": {
+        "regex": "",
+        "should-match": ".txt",
+        "should-not-match": ".txt",
+        "test-include": null,
+        "test-exclude": null,
+        "test-combined": "test-git.sh"
+    },
+    "plus-minus": {
+        "regex": "",
+        "should-match": ".txt",
+        "should-not-match": ".txt",
+        "test-include": null,
+        "test-exclude": null,
+        "test-combined": "test-plus-minus.sh"
+    },
+    "auth": {
+        "regex": "",
+        "should-match": ".txt",
+        "should-not-match": ".txt",
+        "test-include": null,
+        "test-exclude": null,
+        "test-combined": "test-auth.sh"
+    }
+}
