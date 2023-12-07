@@ -1,6 +1,9 @@
 
 INFO -> Bash shell: git-Bash
 
+# Shell scripting don't use spaces when assigning variables, I had an issue with this until I found the problem
+# REGEX = '^[+-] '   -- > WRONG
+
 Task: 
 
 1 - lines beginning with “+ ” or “- ” (a plus or a minus, followed by a space)
@@ -31,7 +34,7 @@ Task:
     silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep -i 'failed.*kit' auth.log
 
     Note: word boundaries were needed to bring only "Kit" user and not users that contain Kit, like ankit or kitti.
-    New version: $ egrep -i 'failed.*\bkit\b' auth.log
+    New version: $ egrep -vi 'failed.*\bkit\b' auth.log
   
 - Log error
 
@@ -45,7 +48,7 @@ Task:
   silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main) $ egrep -i invalid user auth.log
   
   Note: you can have false positives here when a user name is "invalid user" or when it's part of a text
-  New version: egrep -i 'sshd\[[0-9]+\]: Invalid user' auth.log
+  New version: egrep -vi 'sshd\[[0-9]+\]: Invalid user' auth.log
   With this new version, we can see the log of invalid SSH login attemp logs properly. 
 
 _____________________________________________________________
@@ -78,6 +81,24 @@ $ grep -v -E 'Author:|Date:' git-log.txt
 
 grep -v 'origin/main' git-log.txt
 
+Note: I didn't consider you can have 'origin/main' on a comment, so I needed to be more specific on the REGEX 
+by adding an anchor and reference the lines which start with "commit"
+New version= ^commit [0-9a-z]{40} (.*origin/main)
+
+After running the new version, it was found that the commit line start with spaces, so I needed to further modify my regex
+and remove the anchor ^
+
+silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main)
+$ egrep "commit [0-9a-z]{40} \(.*origin/main\)" git-log.txt
+    commit 64c64365e444b5a92882665d6515db2216236519 (HEAD -> main, tag: decode-base, proto/main, origin/main)
+
+- Retrieve all the file without comments 
+Remove the second line after Date = $ grep 'Date:' -B 2 git-log.txt
+The -B does not work as expected with -v, so I'll change the regex. 
+
+All the comments on the file has 8 spaces indentation (or two tab), so I'll use that paramether to exclude the comments:
+silvi@Lenovo_16 MINGW64 ~/shell-test-silvi (main)
+$ grep -v '^ \{8\}' git-log.txt
 
 _____________________________________________________________
 
@@ -92,7 +113,23 @@ if sshd is imediately followed by session opened).
 
 ***Additional matching example:***
 
+- Failed password
+$ grep 'Failed password' auth.log
 
 ****Three additional not matching example:***
+- exclude all the lines that are not sshd[number]: egrep - v sshd\[[0-9]+\] 
+- Not match any systemd-login: egrep -v 'systemd-logind\[[0-9]+\]'
+- Unmatch any PAM authentication failures: the challenge with this case is 
+    PAM authentication failure (when only one case)
+    PAM 2 more authentication failed (when more than 1)
+
+egrep -v "PAM( [0-9]+ more)? authentication failure" auth.log
+
+Note: I learn that you can have an optional match, in this case ( [0-9]+ more)? 
+the ? marks the optional group of characters 
+
+
+
+
 
 
