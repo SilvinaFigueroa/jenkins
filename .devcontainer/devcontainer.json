@@ -3,5 +3,5 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "jenkins",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-    "forwardPorts": [8080, 50000],
+    "forwardPorts": [8080, 50000]
     }
