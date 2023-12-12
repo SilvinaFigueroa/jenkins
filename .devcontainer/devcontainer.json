@@ -4,4 +4,4 @@
     "service": "jenkins",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
     "forwardPorts": [8080, 50000]
-  }  
+}  
