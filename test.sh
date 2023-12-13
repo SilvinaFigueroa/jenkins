@@ -36,6 +36,7 @@
         #c - Not include PAM authentication failures
             #NEG_REGEX="PAM( [0-9]+ more)? authentication failure"
 
+#!/bin/bash
 
 authlogFile="auth.log"
 gitlogFile="git-log.txt"
@@ -43,7 +44,7 @@ gitlogFile="git-log.txt"
 declare -a patterns=(
     "^[+-] $authlogFile"
     "\\bport 63315\\b $authlogFile"
-    "^commit .*\\(tag: $gitlogFile"
+    "^commit .*\\(.*tag:.*\\) $gitlogFile"
     "Author: Kit Transue $gitlogFile"
     "sshd.*session opened $authlogFile"
     "Failed password $authlogFile"
